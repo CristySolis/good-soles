@@ -17,15 +17,37 @@ export default function DonatePage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+  
+    // Conditional validation
+    if (form.shoe_size <= 0) {
+      setMessage('Shoe size must be greater than 0')
+      return
+    }
+  
+    if (!form.delivery_method) {
+      setMessage('Delivery method is required')
+      return
+    }
+  
+    if (form.delivery_method === 'pickup' && !form.pickup_address) {
+      setMessage('Pickup address is required for pickup donations')
+      return
+    }
+  
+    if (!form.contact_name || !form.contact_email) {
+      setMessage('Contact name and email are required')
+      return
+    }
+  
     setMessage('Submitting...')
-
+  
     try {
       const res = await fetch('/api/donations', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       })
-
+  
       const data = await res.json()
       if (!res.ok) {
         setMessage(`Error: ${data.error}`)
@@ -38,6 +60,7 @@ export default function DonatePage() {
       setMessage('Unexpected error')
     }
   }
+  
 
   return (
     <div style={{ maxWidth: 400, margin: '2rem auto' }}>
