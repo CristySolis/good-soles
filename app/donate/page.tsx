@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import type { CreateDonationInput } from '@/lib/types'
+import DonationsList from '@/app/donate/DonationsList'
 
 export default function DonatePage() {
   const [form, setForm] = useState<CreateDonationInput>({
@@ -128,6 +129,8 @@ export default function DonatePage() {
       </form>
 
       {message && <p>{message}</p>}
+      {/* ✅ Show donations below the form */}
+      <DonationsList />
     </div>
   )
 }
